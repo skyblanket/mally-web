@@ -80,14 +80,21 @@ body {
   100% { background-position: 1200% 50%; }
 }
 
-/* ── Install block ── */
+/* ── Install blocks ── */
 
-.install {
+.install-section {
   margin-top: 48px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 24px;
+}
+
+.install {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 .install-label {
@@ -141,6 +148,7 @@ body {
   color: #999;
   transition: color 0.15s, background 0.15s;
   flex-shrink: 0;
+  position: relative;
 }
 
 .copy-btn:hover {
@@ -154,6 +162,11 @@ body {
   transition: transform 0.2s ease, opacity 0.15s;
 }
 
+.copy-btn .icon-check {
+  display: none;
+  position: absolute;
+}
+
 /* Copy animation */
 .copy-btn.copied {
   color: #22c55e;
@@ -162,6 +175,9 @@ body {
 .copy-btn.copied svg {
   transform: scale(1.15);
 }
+
+.copy-btn.copied .icon-copy { display: none; }
+.copy-btn.copied .icon-check { display: block; }
 
 /* Ripple on click */
 .install-box.flash {
@@ -172,6 +188,23 @@ body {
   0%   { border-color: #e8e8e8; }
   30%  { border-color: #999; }
   100% { border-color: #e8e8e8; }
+}
+
+/* ── Divider ── */
+
+.divider {
+  width: 40px;
+  height: 1px;
+  background: #e8e8e8;
+}
+
+/* ── Platform hint ── */
+
+.platform-hint {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #bbb;
+  margin-top: -4px;
 }
 
 /* ── Footer ── */
@@ -198,7 +231,7 @@ body {
   body { padding: 20px 16px; }
   .brand { font-size: clamp(48px, 14vw, 72px); }
   .tagline { margin-top: 16px; font-size: 16px; }
-  .install { margin-top: 36px; width: 100%; }
+  .install-section { margin-top: 36px; width: 100%; }
   .install-box { width: 100%; max-width: 100%; }
   .install-cmd { font-size: 11px; padding: 12px 12px 12px 14px; }
   .copy-btn { width: 42px; height: 42px; min-width: 42px; }
@@ -225,20 +258,56 @@ body {
 
 <div class="tagline">Augment yourself with <em>superintelligence</em></div>
 
-<div class="install">
-  <span class="install-label">install</span>
-  <div class="install-box" id="installBox" onclick="copyInstall()">
-    <span class="install-cmd">curl -fsSL https://mally-api.otonomy.ai/install.sh | bash</span>
-    <button class="copy-btn" id="copyBtn" aria-label="Copy">
-      <svg id="iconCopy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="9" y="9" width="13" height="13" rx="2"/>
-        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
-      </svg>
-      <svg id="iconCheck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none; position:absolute;">
-        <polyline points="20 6 9 17 4 12"/>
-      </svg>
-    </button>
+<div class="install-section">
+
+  <!-- Alpha / Latest -->
+  <div class="install">
+    <span class="install-label">install — alpha</span>
+    <div class="install-box" onclick="copyCmd(this, 'curl -fsSL https://mally-api.otonomy.ai/install-otp.sh | bash')">
+      <span class="install-cmd">curl -fsSL https://mally-api.otonomy.ai/install-otp.sh | bash</span>
+      <button class="copy-btn" aria-label="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+        </svg>
+        <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </button>
+    </div>
+    <span class="platform-hint">macOS / Linux</span>
+
+    <div class="install-box" onclick="copyCmd(this, 'irm https://mally-api.otonomy.ai/install-otp.ps1 | iex')">
+      <span class="install-cmd">irm https://mally-api.otonomy.ai/install-otp.ps1 | iex</span>
+      <button class="copy-btn" aria-label="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+        </svg>
+        <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </button>
+    </div>
+    <span class="platform-hint">Windows (PowerShell)</span>
   </div>
+
+  <div class="divider"></div>
+
+  <!-- Stable / Python CLI -->
+  <div class="install">
+    <span class="install-label">install — stable</span>
+    <div class="install-box" onclick="copyCmd(this, 'curl -fsSL https://mally-api.otonomy.ai/install.sh | bash')">
+      <span class="install-cmd">curl -fsSL https://mally-api.otonomy.ai/install.sh | bash</span>
+      <button class="copy-btn" aria-label="Copy">
+        <svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+        </svg>
+        <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
 </div>
 
 <div class="foot">
@@ -246,29 +315,17 @@ body {
 </div>
 
 <script>
-function copyInstall() {
-  var cmd = 'curl -fsSL https://mally-api.otonomy.ai/install.sh | bash';
+function copyCmd(box, cmd) {
   navigator.clipboard.writeText(cmd);
-  if (window.posthog) posthog.capture('install_command_copied');
-
-  var box = document.getElementById('installBox');
-  var btn = document.getElementById('copyBtn');
-  var iconCopy = document.getElementById('iconCopy');
-  var iconCheck = document.getElementById('iconCheck');
+  if (window.posthog) posthog.capture('install_command_copied', { command: cmd });
 
   box.classList.remove('flash');
   void box.offsetWidth;
   box.classList.add('flash');
 
+  var btn = box.querySelector('.copy-btn');
   btn.classList.add('copied');
-  iconCopy.style.display = 'none';
-  iconCheck.style.display = 'block';
-
-  setTimeout(function() {
-    btn.classList.remove('copied');
-    iconCopy.style.display = 'block';
-    iconCheck.style.display = 'none';
-  }, 1500);
+  setTimeout(function() { btn.classList.remove('copied'); }, 1500);
 }
 </script>
 </body>
