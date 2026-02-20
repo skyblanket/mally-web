@@ -104,6 +104,56 @@ body {
   color: #999;
 }
 
+/* ── Unstable / Danger variant ── */
+
+.install-label.danger {
+  color: #e53e3e;
+}
+
+.install-label.danger::after {
+  content: ' — unstable';
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.install.danger-zone .install-box {
+  background: #fff5f5;
+  border-color: #e53e3e30;
+}
+
+.install.danger-zone .install-box:hover {
+  border-color: #e53e3e;
+  box-shadow: 0 2px 20px rgba(229,62,62,0.08);
+}
+
+.install.danger-zone .install-cmd {
+  color: #4a1a1a;
+}
+
+.install.danger-zone .copy-btn {
+  border-left-color: #e53e3e20;
+  color: #c53030;
+}
+
+.install.danger-zone .copy-btn:hover {
+  background: #fee2e2;
+  color: #9b1c1c;
+}
+
+.install.danger-zone .copy-btn.copied {
+  color: #e53e3e;
+}
+
+@keyframes flashBorderDanger {
+  0%   { border-color: #e53e3e30; }
+  30%  { border-color: #e53e3e; }
+  100% { border-color: #e53e3e30; }
+}
+
+.install.danger-zone .install-box.flash {
+  animation: flashBorderDanger 0.4s ease;
+}
+
 .install-box {
   position: relative;
   display: flex;
@@ -260,9 +310,9 @@ body {
 
 <div class="install-section">
 
-  <!-- Alpha / Latest -->
-  <div class="install">
-    <span class="install-label">install — alpha</span>
+  <!-- Alpha / Unstable -->
+  <div class="install danger-zone">
+    <span class="install-label danger">install</span>
     <div class="install-box" onclick="copyCmd(this, 'curl -fsSL https://mally-api.otonomy.ai/install-otp.sh | bash')">
       <span class="install-cmd">curl -fsSL https://mally-api.otonomy.ai/install-otp.sh | bash</span>
       <button class="copy-btn" aria-label="Copy">
