@@ -310,8 +310,8 @@ body {
 
 <div class="install-section">
 
-  <!-- Alpha / Unstable -->
-  <div class="install danger-zone">
+  <!-- Alpha / Unstable (hidden, password-gated) -->
+  <div id="alpha-section" class="install danger-zone" style="display:none">
     <span class="install-label danger">install</span>
     <div class="install-box" onclick="copyCmd(this, 'curl -fsSL https://mally-api.otonomy.ai/install-otp.sh | bash')">
       <span class="install-cmd">curl -fsSL https://mally-api.otonomy.ai/install-otp.sh | bash</span>
@@ -338,9 +338,8 @@ body {
       </button>
     </div>
     <span class="platform-hint">Windows (PowerShell)</span>
+    <div class="divider" style="margin-top:14px"></div>
   </div>
-
-  <div class="divider"></div>
 
   <!-- Stable / Python CLI -->
   <div class="install">
@@ -361,10 +360,20 @@ body {
 </div>
 
 <div class="foot">
-  <span>by otonomy</span>
+  <a href="#" id="alpha-link" onclick="unlockAlpha(event)" style="font-size:9px;letter-spacing:0.1em;color:#ddd;text-decoration:none;text-transform:uppercase">alpha</a>
+  <br><span>by otonomy</span>
 </div>
 
 <script>
+function unlockAlpha(e) {
+  e.preventDefault();
+  var p = prompt('');
+  if (p === '0103') {
+    document.getElementById('alpha-section').style.display = '';
+    document.getElementById('alpha-link').style.display = 'none';
+  }
+}
+
 function copyCmd(box, cmd) {
   navigator.clipboard.writeText(cmd);
   if (window.posthog) posthog.capture('install_command_copied', { command: cmd });
